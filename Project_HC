@@ -1,0 +1,209 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using Test.Employee;
+using Test.Models;
+using Test.User;
+
+namespace Test.Controllers
+{
+    [Authorize]
+    public class HomeController : Controller
+    {
+        projectEntities db = new projectEntities();
+        projectEntities1 db1 = new projectEntities1();
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+        
+        public ActionResult Empdetails()
+        {
+            var result = db.empdatas.ToList();
+            List<empmodel> details = new List<empmodel>();
+
+            foreach (var item in result)
+            {
+                details.Add(new empmodel
+                {
+                    Id=item.Id,
+                    F_name=item.F_name,
+                    L_name=item.L_name,
+                    Gender=item.Gender,
+                    Age=item.Age,
+                    Email=item.Email,
+                    Address=item.Address,
+                    Dept_id=item.Dept_id,
+                    Dept_name=item.Dept_name,
+                    Salary=item.Salary
+                });
+            }
+            return View(details);
+        }
+        public ActionResult Delete(int id)
+        {
+            var del = db.empdatas.Where(a => a.Id == id).First();
+            db.empdatas.Remove(del);
+            db.SaveChanges();
+            return RedirectToAction("Empdetails");
+        }
+        public ActionResult Userdetails()
+        {
+            var res = db1.userinfoes.ToList();
+            List<usermodel> udata = new List<usermodel>();
+
+            foreach (var item in res)
+            {
+                udata.Add(new usermodel
+                {
+                    S_no=item.S_no,
+                    Name = item.Name,
+                    Email = item.Email,
+                });
+            }
+            return View(udata);
+        }
+       
+        [HttpGet]
+        public ActionResult Addemp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Addemp(empmodel ob)
+        {
+            empdata tabo = new empdata
+            {
+                Id=ob.Id,
+                F_name = ob.F_name,
+                L_name = ob.L_name,
+                Gender = ob.Gender,
+                Age = ob.Age,
+                Email = ob.Email,
+                Address = ob.Address,
+                Dept_id = ob.Dept_id,
+                Dept_name = ob.Dept_name,
+                Salary = ob.Salary
+            };
+            if (ob.Id==0)
+            {
+                ModelState.Clear();
+                db.empdatas.Add(tabo);
+                db.SaveChanges();
+            }
+            else
+            {
+                db.Entry(tabo).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Empdetails");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var editdetail = db.empdatas.FirstOrDefault(a => a.Id == id);
+            empmodel ed = new empmodel();
+
+            ed.Id = editdetail.Id;
+            ed.F_name = editdetail.F_name;
+            ed.L_name = editdetail.L_name;
+            ed.Gender = editdetail.Gender;
+            ed.Age = editdetail.Age;
+            ed.Email = editdetail.Email;
+            ed.Address = editdetail.Address;
+            ed.Dept_id = editdetail.Dept_id;
+            ed.Dept_name = editdetail.Dept_name;
+            ed.Salary = editdetail.Salary;
+
+
+            TempData["Edit"] = "Edit";
+            return View("Addemp", ed);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Register(usermodel regis)
+        {
+
+            userinfo userobj = new userinfo();
+
+            userobj.Name = regis.Name;
+
+            userobj.Email = regis.Email;
+
+            userobj.Password = regis.Password;
+
+            db1.userinfoes.Add(userobj);
+            db1.SaveChanges();
+            return RedirectToAction("Register");
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(usermodel obje)
+
+        {
+            var resultt = db1.userinfoes.Where(a => a.Email == obje.Email).FirstOrDefault();
+            if (resultt == null)
+            {
+                TempData["NotFound"] = "Email not found";
+            }
+            else
+            {
+                if (resultt.Email == obje.Email && resultt.Password == obje.Password)
+                {
+                    FormsAuthentication.SetAuthCookie(resultt.Email, false);
+
+                    Session["Email"] = resultt.Email;
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Pass"] = "Invalid Password";
+                }
+            }
+            return View();
+        }
+
+       
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Clear();
+
+            return RedirectToAction("Register");
+        }
+    }
+}
