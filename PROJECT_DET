@@ -1,0 +1,39 @@
+@model List<Test.Models.empmodel>
+<h1>Employee Details</h1>
+<hr />
+
+<table class="table table-bordered table-responsive table-hover">
+    <tr>
+
+        <th>F_name</th>
+        <th>L_name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>EMAIL</th>
+        <th>ADDRESS</th>
+        <th>DEPARTMENT_id</th>
+        <th>DEPARTMENT_name</th>
+        <th>SALARY</th>
+        <th>EDIT</th>
+        <th>DELETE</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+
+    <td>@item.F_name</td>
+    <td>@item.L_name</td>
+    <td>@item.Gender</td>
+    <td>@item.Age</td>
+    <td>@item.Email</td>
+    <td>@item.Address</td>
+    <td>@item.Dept_id</td>
+    <td>@item.Dept_name</td>
+    <td>@item.Salary</td>
+    <td><a href="@Url.Action("Edit","Home",new { item.Id})" type="button" class="btn btn-primary">Edit</a></td>
+    <td><a href="@Url.Action("Delete","Home",new { item.Id})" type="button" class="btn btn-warning">Delete</a></td>
+</tr>
+    }
+</table>
+
