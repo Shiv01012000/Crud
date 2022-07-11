@@ -1,0 +1,83 @@
+@model Test.Models.empmodel
+
+@{
+    ViewBag.Title = "Addemp";
+}
+
+<h1>Add New Employee</h1>
+
+
+
+@using (Html.BeginForm("Addemp", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @Class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+
+    <div class="mp-3">
+        <label class="form-label">First Name</label><br />
+        @Html.TextBoxFor(m => m.F_name, new { @class = "form-control", @placeholder = "Enter Your First Name" })
+        @Html.ValidationMessageFor(Model => Model.F_name, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Last Name</label><br />
+        @Html.TextBoxFor(m => m.L_name, new { @class = "form-control", @placeholder = "Enter Your Last Name" })
+        @Html.ValidationMessageFor(Model => Model.L_name, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Gender</label><br />
+        @Html.TextBoxFor(m => m.Gender, new { @class = "form-control", @placeholder = "Enter Your Last Name" })
+        @Html.ValidationMessageFor(Model => Model.Gender, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Age</label><br />
+        @Html.TextBoxFor(m => m.Age, new { @class = "form-control", @placeholder = "Enter Your Last Name" })
+        @Html.ValidationMessageFor(Model => Model.Age, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Email</label><br />
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Your email" })
+        @Html.ValidationMessageFor(Model => Model.Email, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Address</label><br />
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Enter Your Address" })
+        @Html.ValidationMessageFor(Model => Model.Address, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Department Id</label><br />
+        @Html.TextBoxFor(m => m.Dept_id, new { @class = "form-control", @placeholder = "Enter Your Department" })
+        @Html.ValidationMessageFor(Model => Model.Dept_id, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Department Name</label><br />
+        @Html.TextBoxFor(m => m.Dept_name, new { @class = "form-control", @placeholder = "Enter Your Department" })
+        @Html.ValidationMessageFor(Model => Model.Dept_name, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Salary</label><br />
+        @Html.TextBoxFor(m => m.Salary, new { @class = "form-control", @placeholder = "Enter Your Salary" })
+        @Html.ValidationMessageFor(Model => Model.Salary, "", new { @Class = "text-danger" })
+    </div>
+</div>
+    <br />
+    <div class="form-group">
+        @{ if (TempData["Edit"] != null)
+            {
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Edit" class="btn btn-default" style="background-color:aqua" />
+                </div>
+            }
+            else
+            {
+                <div class="col-md-offset-2 ">
+                    <input type="submit" value="Add Emp" class="btn btn-default" style="background-color:honeydew" />
+                </div>
+            }
+
+        }
+    </div>
+}
