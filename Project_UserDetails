@@ -1,0 +1,22 @@
+@model List<Test.Models.usermodel>
+<h1>User Details</h1>
+<hr />
+
+<table class="table table-bordered table-responsive table-hover">
+    <tr>
+
+        <th>Name</th>
+        <th>EMAIL</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+
+    <td>@item.Name</td>
+    <td>@item.Email</td>
+
+</tr>
+    }
+</table>
+
