@@ -1,0 +1,29 @@
+@model Test.Models.usermodel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h1>Please Login</h1>
+
+<hr />
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <div>
+        <label>Email</label><br />
+        @Html.TextBoxFor(m => m.Email, new { @class = "" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @Class = "error" })
+    </div>
+    <div>
+        <label>Password</label><br />
+        @*@Html.TextBoxFor(m => m.Password, new { @class = "" })*@
+        @Html.PasswordFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Password, "", new { @Class = "error" })
+    </div>
+
+    <br />
+    <input class="btn btn-primary" value="Login" type="submit" />
+
+    <span>@TempData["NotFound"]</span>
+    <span>@TempData["Pass"]</span>
+}
+
