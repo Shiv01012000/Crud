@@ -1,0 +1,54 @@
+
+@model Test.Models.usermodel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h1>Register Yourself</h1>
+
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @Class = "text-danger" })
+        @Html.HiddenFor(Model => Model.S_no)
+
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Name</label><br />
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Enter Your Name" })
+        @Html.ValidationMessageFor(Model => Model.Name, "", new { @Class = "text-danger" })
+    </div>
+
+    <div class="mp-3">
+        <label class="form-label">Email</label><br />
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Your email" })
+        @Html.ValidationMessageFor(Model => Model.Email, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Age</label><br />
+        @Html.TextBoxFor(m => m.Age, new { @class = "form-control", @placeholder = "Enter Your Name" })
+        @Html.ValidationMessageFor(Model => Model.Age, "", new { @Class = "text-danger" })
+    </div>
+    <div class="mp-3">
+        <label class="form-label">Address</label><br />
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Enter Your Name" })
+        @Html.ValidationMessageFor(Model => Model.Address, "", new { @Class = "text-danger" })
+    </div>
+
+    <div class="mp-3">
+        <label class="form-label">Password</label><br />
+        @*@Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Your password" })*@
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Your password" })
+        @Html.ValidationMessageFor(Model => Model.Password, "", new { @Class = "text-danger" })
+    </div>
+
+    <br />
+
+    <input class="btn btn-primary" value="Register" type="submit" />
+
+}
